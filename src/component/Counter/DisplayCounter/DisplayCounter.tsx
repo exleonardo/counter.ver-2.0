@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useEffect , useState} from 'react';
 import Display from "./Display/Display";
 import s from './DisplayCounter.module.css'
 import Button from "../Button/Button";
@@ -14,12 +14,15 @@ type ConfigCounterType = {
 }
 const DisplayCounter: React.FC<ConfigCounterType> = (
     { setValue , value , setButtonIncrementError , buttonIncrementError , buttonResetError , errorMessage }) => {
-    const setValueOnClick = () => {
-        setValue ( value + 1 );
+
+    useEffect ( () => {
         const maxValue = localStorage.getItem ( "maxValue" )
         if ( maxValue ) {
-            +maxValue - 1 === value && setButtonIncrementError ( !buttonIncrementError );
+            +maxValue === value && setButtonIncrementError ( !buttonIncrementError );
         }
+    } , [value] )
+    const setValueOnClick = () => {
+        setValue ( value + 1 );
     }
     const resetValueOnClick = () => {
         setButtonIncrementError ( false )
@@ -28,7 +31,6 @@ const DisplayCounter: React.FC<ConfigCounterType> = (
             setValue ( +minValue )
         }
     }
-
     return (
         <div className={s.styleDisplay}>
             <Display value={value} error={buttonIncrementError} errorMessage={errorMessage}/>

@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useEffect , useState} from 'react';
 import s from "./SettingCounter.module.css"
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -11,8 +11,29 @@ type SettingCounterType = {
     setErrorMessage: (value: string) => void
 }
 const SettingCounter: React.FC<SettingCounterType> = (
-    { setValue , setButtonIncrementError , setbuttonResetError , setErrorMessage }) => {
+    {
+        setValue , setButtonIncrementError , setbuttonResetError , setErrorMessage
+    }) => {
+
     const [error , setError] = useState ( true )
+    //------------------------------------------------------
+    const [inputMaxError , setMaxInputError] = useState ( true )
+    const [inputMinError , setMinInputError] = useState ( true )
+    //--------------------------------------------------------
+    const [minValue , setMinvalue] = useState ( "" )
+    const [maxValue , setMaxValue] = useState ( "" )
+    useEffect ( () => {
+        let minValue = localStorage.getItem ( "minValue" )
+        let maxValue = localStorage.getItem ( "maxValue" )
+        if ( minValue ) {
+            setMinvalue ( minValue )
+        }
+        if ( maxValue ) {
+            setMaxValue ( maxValue )
+        }
+
+
+    } , [] );
     const onClickSaveValueHandler = () => {
         setButtonIncrementError ( false )
         setbuttonResetError ( false )
@@ -22,14 +43,6 @@ const SettingCounter: React.FC<SettingCounterType> = (
         localStorage.setItem ( "maxValue" , maxValue )
         localStorage.setItem ( "minValue" , minValue )
     }
-
-    //------------------------------------------------------
-    const [inputMaxError , setMaxInputError] = useState ( true )
-    const [inputMinError , setMinInputError] = useState ( true )
-    //--------------------------------------------------------
-    const [minValue , setMinvalue] = useState ( "" )
-    const [maxValue , setMaxValue] = useState ( "" )
-
     const onChangeMinValueHandler = (value: string) => {
         setMinvalue ( value )
         setError ( false )
