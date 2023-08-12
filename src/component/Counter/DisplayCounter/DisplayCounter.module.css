@@ -1,0 +1,14 @@
+.styleDisplay {
+    border: 1px solid deepskyblue;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.styleButton {
+    border: 1px solid deepskyblue;
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    border-radius: 5px;
+}
